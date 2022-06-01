@@ -2,7 +2,7 @@ from math import sqrt, atan, pi
 from random import randint
 from heapq import heappop, heappush, heapify
 
-
+# Erstellen von zufälligen Punkten, die für die Berechnung der Tukey depth dienen
 def create_random_sample_points():
     amount_of_points = int(input("How many points do you want to create? "))
     sample_points = []
@@ -12,15 +12,17 @@ def create_random_sample_points():
     return sample_points
 
 
+# Funktion zum Erstellen von einem zufälligen Punkt
 def create_random_sample_point():
-    x = randint(-5, 5)
-    y = randint(-5, 5)
-    while x == 0: x = randint(-5, 5)
-    while y == 0: y = randint(-5, 5)
+    x = randint(-1000, 1000)
+    y = randint(-1000, 1000)
+    while x == 0: x = randint(-1000, 1000)
+    while y == 0: y = randint(-1000, 1000)
     polar_angle = get_polar_angle([x, y])
     return [polar_angle, x, y]
 
 
+# Berechnen des Polarwinkels für einen Punkt 
 def get_polar_angle(point):
     x = point[0]
     y = point[1]
@@ -34,12 +36,7 @@ def get_polar_angle(point):
     return polar_angle_in_degree
 
 
-def print_points(points):
-    for point in points:
-        print("Polarwinkel: " , str(point(0)) , ", X: " , str(point(1)) , ", Y: " , str(point(2)))
-    print("\n")
-
-
+# Aufteilen der Punkte aus der Punktmenge in unterschiedliche Quadranten
 def divide_points_into_quadrants(sample_points):
     quadrant_0, quadrant_1, quadrant_2, quadrant_3 = ([] for i in range(4))
     for sample_point in sample_points:
@@ -54,48 +51,20 @@ def divide_points_into_quadrants(sample_points):
     return [quadrant_0, quadrant_1, quadrant_2, quadrant_3]
 
 
-def calculate_depth_i(quadrants_with_points):
-    extracted_elements_for_quadrant_i = []
-    index_error = False
-    quadrant_i_with_heaps = []
-    for index in range(len(quadrants_with_points)): 
-        quadrant_i_with_heaps.append(build_heaps_for_quadrant_i(index, quadrants_with_points))
+# Bilden der Heaps für einen Quadranten i
+def build_heaps_for_quadrants(quadrants_with_points):
+    heaps_for_quadrants = []
     for index in range(len(quadrants_with_points)):
-        try: 
-            element_from_h_i_minus_one = heappop(quadrant_i_with_heaps[index][0])
-            element_from_h_i_plus_one = heappop(quadrant_i_with_heaps[index][1])
-            extracted_elements_for_quadrant_i.append(index)
-            if (abs(element_from_h_i_minus_one[0]-element_from_h_i_plus_one[0] > 180)):
-                extracted_elements = extracted_elements_for_quadrant_i.count(index)
-                scan_depth_i(extracted_elements, index, quadrants_with_points[index], quadrant_i_with_heaps[index])
-        except IndexError:
-            index_error = True  
-        finally:
-            if index_error: print("hallo, k:", extracted_elements_for_quadrant_i.count(index))
-    # [alles[quadrant1[heap1[punkt]]],[],[],[],]
+        h_i_minus_one = build_max_heap_for_quadrant_i(quadrants_with_points[(index-1) % 4])
+        h_i_plus_one = build_min_heap_for_quadrant_i(quadrants_with_points[(index+1) % 4])
+        heaps_for_quadrants.append([h_i_minus_one, h_i_plus_one])
+    # print("MAX HEAP:", h_i_minus_one)
+    # print("MIN HEAP:", h_i_plus_one)
+    return heaps_for_quadrants
 
 
-def scan_depth_i(extracted_elements, index, quadrant_i_with_points, quadrant_i_with_heaps):
-    print("get me out von quadrant", index)
-
-
-def build_heaps_for_quadrant_i(index, quadrants_with_points):
-    h_i_minus_one = build_max_heap(quadrants_with_points[(index-1) % 4])
-    h_i_plus_one = build_min_heap(quadrants_with_points[(index+1) % 4])
-    print("MAX HEAP:", h_i_minus_one)
-    print("MIN HEAP:", h_i_plus_one)
-    return [h_i_minus_one, h_i_plus_one]
-
-
-def build_min_heap(quadrant_with_points):
-    h_i_plus_one = []
-    heapify(h_i_plus_one)
-    for point in quadrant_with_points:
-        heappush(h_i_plus_one, point)
-    return h_i_plus_one
-
-
-def build_max_heap(quadrant_with_points):
+# Bilden eines max heaps für einen Quadranten i
+def build_max_heap_for_quadrant_i(quadrant_with_points):
     h_i_minus_one = []
     heapify(h_i_minus_one)
     for point in quadrant_with_points:
@@ -106,6 +75,50 @@ def build_max_heap(quadrant_with_points):
     return h_i_minus_one
 
 
+# Bilden eines min heaps für einen Quadranten i
+def build_min_heap_for_quadrant_i(quadrant_with_points):
+    h_i_plus_one = []
+    heapify(h_i_plus_one)
+    for point in quadrant_with_points:
+        heappush(h_i_plus_one, point)
+    return h_i_plus_one
+
+
+def calculate_depth_i(quadrants_with_points, heaps_for_quadrants):
+    extracted_elements_for_quadrant_i = []
+    quadrants_with_terminated_extraction = [] 
+    amount_of_points = len(quadrants_with_points[0]) + len(quadrants_with_points[1]) + len(quadrants_with_points[2]) + len(quadrants_with_points[3])
+    while len(quadrants_with_terminated_extraction) != 4:
+        for index in range(len(quadrants_with_points)):
+            try:
+                if (index not in quadrants_with_terminated_extraction): 
+                    element_from_h_i_minus_one = heappop(heaps_for_quadrants[index][0])# heaps_for_quadrants[index][0][0]
+                    heaps_for_quadrants[index][0] = build_max_heap_for_quadrant_i(heaps_for_quadrants[index][0][1:])
+                    element_from_h_i_plus_one = heappop(heaps_for_quadrants[index][1])
+                    extracted_elements_for_quadrant_i.append(index)
+                    if (check_if_obtuse_angle(index, element_from_h_i_minus_one[0], element_from_h_i_plus_one[0])):
+                        quadrants_with_terminated_extraction.append(index)
+            except IndexError:
+                quadrants_with_terminated_extraction.append(index)
+    # scan_depth_i(extracted_elements, index, quadrants_with_points[index], heaps_for_quadrants[index])
+
+
+def check_if_obtuse_angle(index, polar_angle_from_h_i_minus_one, polar_angle_from_h_i_plus_one):
+    if index == 0 or index == 3:
+        if (abs(polar_angle_from_h_i_minus_one - polar_angle_from_h_i_plus_one) < 180): 
+            return True
+    elif index == 1 or index == 2:
+        if (abs(polar_angle_from_h_i_minus_one - polar_angle_from_h_i_plus_one) > 180): 
+            return True
+    return False
+
+
+def scan_depth_i(extracted_elements, index, quadrant_i_with_points, quadrant_i_with_heaps):
+    print("get me out von quadrant", index)
+
+
+
+
 def print_heap(heap):
     for element in heap: 
         print(element, end = ' ')
@@ -114,7 +127,10 @@ def print_heap(heap):
 
 
 
-
+def print_points(points):
+    for point in points:
+        print("Polarwinkel: " , str(point(0)) , ", X: " , str(point(1)) , ", Y: " , str(point(2)))
+    print("\n")
     # TODO ich muss depth_i für die einzelnen quadranten ausrechnen. dafür erstelle ich gerade die heaps für die jeweiligen quadranten und muss dann in
     # TODO calculate_depth_i die einzelnen tiefen berechnen
         
