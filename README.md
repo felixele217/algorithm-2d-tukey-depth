@@ -30,7 +30,6 @@ To run the program, please navigate to the folder of the project in a terminal o
 ```
 python3 main.py
 ``` 
-to run the program.  
 
 For example, I am using Visual Studio Code and therefore I could run the program in my integrated terminal like this:  
 
