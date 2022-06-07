@@ -183,7 +183,7 @@ def run_algorithm_for_n_points(n_points):
 
 
 def run_algorithm_for_one_point(amount_of_points):
-    sample_points = create_random_sample_points(amount_of_points, 100, 100)
+    sample_points = create_random_sample_points(amount_of_points, x_range=100, y_range=100)
     start_time = time.time()
     quadrants_with_points = divide_points_into_quadrants(sample_points)
     heaps_for_quadrants = build_heaps_for_quadrants(quadrants_with_points)
