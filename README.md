@@ -1,7 +1,7 @@
 # algorithm-2d-tukey-depth
 The algorithm calculates the Tukey depth of a point p with coordinates (0,0) in a set S. The size of the set S and the range in which the random points are generated can be changed easily. The run time according to the size of the input is then plotted in a .png image in the /plots subfolder. For example, the output image for an input size of 10000 elements could look like this:  
 
-![image](https://user-images.githubusercontent.com/50794814/172379826-eeb4f655-62d5-49f3-9ac2-ab131b70bde1.png)
+![image](https://user-images.githubusercontent.com/50794814/172380005-1691e1f7-fab7-42e8-8cf2-3c10eec20e6d.png)
 
 The implementation of this algorithm has been developed under WSL with Ubuntu. To run the code, you need to clone the repository for example via https with
 ```
