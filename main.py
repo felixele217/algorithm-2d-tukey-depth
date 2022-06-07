@@ -21,6 +21,12 @@ def main() -> None:
 
 
 if __name__ == "__main__":
+    """
+    Runs the main function, if the condition is true.
+
+    The condition is true, if the code is run directly from this file like it 
+    is in 'python3 main.py'.
+    """
     main()
 
 
