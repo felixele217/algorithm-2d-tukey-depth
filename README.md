@@ -37,7 +37,7 @@ For example, I am using Visual Studio Code and therefore I could run the program
 
 The program then asks you to define the amount of points you want to create and the interval in which these points should be created.
 
-![image](https://user-images.githubusercontent.com/50794814/172395096-81d46f5b-a75b-4f08-90b7-6f7b7b7e9811.png)
+![image](https://user-images.githubusercontent.com/50794814/172395412-988f1afe-bee2-47a9-ba55-b5c925b1f81a.png)
 
 In the above image, we would plot the runtimes for a size n from 1 to 50 and the sample points would be generated in the interval [-50, 50].
 
