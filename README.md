@@ -21,11 +21,15 @@ python --version
 ```
 tells you, if you have successfully installed python.
 
+After successfully installing python, create a virtual environment in the following way:  
+```
+python3 -m venv /path/to/new/virtual/environment
+```
+
 To run the program, please navigate to the folder of the project in a terminal of your choice and execute the command
 ```
 python3 main.py
 ``` 
-to run the program.  
 
 For example, I am using Visual Studio Code and therefore I could run the program in my integrated terminal like this:  
 
