@@ -35,15 +35,13 @@ For example, I am using Visual Studio Code and therefore I could run the program
 
 ![image](https://user-images.githubusercontent.com/50794814/172377711-07f6223b-aaa1-4b59-8704-d959dcdfe40b.png)
 
-The images will be saved in the /plots subfolder, which is included in the project folder. Feel free to experimentate with the input size in main.py  
+The program then asks you to define the amount of points you want to create and the interval in which these points should be created.
 
-![image](https://user-images.githubusercontent.com/50794814/172378099-49e100dc-9e05-4253-a24d-a0b64edceb40.png)  
+![image](https://user-images.githubusercontent.com/50794814/172395096-81d46f5b-a75b-4f08-90b7-6f7b7b7e9811.png)
 
-and the range in which the random points are generated in algorithm.py.  
+In the above image, we would plot the runtimes for a size n from 1 to 50 and the sample points would be generated in the interval [-50, 50].
 
-![image](https://user-images.githubusercontent.com/50794814/172378431-eb54f85e-460d-4378-afef-d53a6318e4c2.png)  
-
-The second argument takes the range for the x-coordinate in [-xrange, xrange] and the third argument takes the range for the y-coordinate analog.
+The images will be saved in the /plots subfolder, which is included in the project folder. 
 
 
 
