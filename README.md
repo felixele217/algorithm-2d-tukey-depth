@@ -29,7 +29,7 @@ For example, I am using Visual Studio Code and therefore I could run the program
 
 The images will be saved in the plots/ directory, which is included in the project folder. Feel free to experimentate with the input size in main.py
 ![image](https://user-images.githubusercontent.com/50794814/172378099-49e100dc-9e05-4253-a24d-a0b64edceb40.png)  
-and the range in which the random points are generated in algorithm.py
+and the range in which the random points are generated in algorithm.py.
 ![image](https://user-images.githubusercontent.com/50794814/172378431-eb54f85e-460d-4378-afef-d53a6318e4c2.png)  
 The second argument takes the range for the x-coordinate in [-xrange, xrange] and the third argument takes the range for the y-coordinate analog.
 
