@@ -43,6 +43,8 @@ In the above image, we would plot the runtimes for a size n from 1 to 50 and the
 
 The images will be saved in the /plots subfolder, which is included in the project folder. 
 
+![image](https://user-images.githubusercontent.com/50794814/172401366-cd3997d4-5bec-458e-9f61-299bbec14019.png)
+
 
 
 
