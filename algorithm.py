@@ -46,10 +46,10 @@ def create_random_sample_point(coordinate_range: int) -> list:
 
 def get_polar_angle(point: list) -> float:
     """
-    Returns the polar angle of a given point.
+    Returns the polar angle of a given point
 
     Paramter point: the point that is used for 
-    calculating the polar angle.
+    calculating the polar angle
     """
     x = point[0]
     y = point[1]
@@ -63,8 +63,14 @@ def get_polar_angle(point: list) -> float:
     return polar_angle_in_degree
 
 
-# Aufteilen der Punkte aus der Punktmenge in unterschiedliche Quadranten
 def divide_points_into_quadrants(sample_points: list) -> list:
+    """
+    Returns a list that contains the four quadrants
+    quadrant_0,...,quadrant_3 with the points sorted into them
+
+    Parameter sample_points: the list of points which will be 
+    sorted into the quadrants
+    """
     quadrant_0, quadrant_1, quadrant_2, quadrant_3 = ([] for i in range(4))
     for sample_point in sample_points:
         if sample_point[1] > 0 and sample_point[2] > 0: 
@@ -78,20 +84,30 @@ def divide_points_into_quadrants(sample_points: list) -> list:
     return [quadrant_0, quadrant_1, quadrant_2, quadrant_3]
 
 
-# Bilden der Heaps für einen Quadranten i
 def build_heaps_for_quadrants(quadrants_with_points: list) -> list:
+    """
+    Returns a list that contains the heaps H_i+1 or H_i-1 for each 
+    quadrant i
+
+    Parameter quadrants_with_points: the four quadrants with the 
+    sample points sorted into them
+    """
     heaps_for_quadrants = []
     for index in range(len(quadrants_with_points)):
         h_i_minus_one = build_max_heap_for_quadrant_i(quadrants_with_points[(index-1) % 4])
         h_i_plus_one = build_min_heap_for_quadrant_i(quadrants_with_points[(index+1) % 4])
         heaps_for_quadrants.append([h_i_minus_one, h_i_plus_one])
-    # print("MAX HEAP:", h_i_minus_one)
-    # print("MIN HEAP:", h_i_plus_one)
     return heaps_for_quadrants
 
 
-# Bilden eines max heaps für einen Quadranten i
 def build_max_heap_for_quadrant_i(quadrant_with_points: list) -> list:
+    """
+    Returns a max heap for quadrant i which is H_i-1. The property that
+    is used to sort the points into heaps is the polar angle
+
+    Parameter quadrants_with_points: the quadrant which contains the
+    points that should be sorted into a max heap
+    """
     h_i_minus_one = []
     heapify(h_i_minus_one)
     for point in quadrant_with_points:
@@ -102,8 +118,14 @@ def build_max_heap_for_quadrant_i(quadrant_with_points: list) -> list:
     return h_i_minus_one
 
 
-# Bilden eines min heaps für einen Quadranten i
 def build_min_heap_for_quadrant_i(quadrant_with_points: list) -> list:
+    """
+    Returns a min heap for quadrant i which is H_i+1. The property that
+    is used to sort the points into heaps is the polar angle
+
+    Parameter quadrants_with_points: the quadrant which contains the
+    points that should be sorted into a min heap
+    """
     h_i_plus_one = []
     heapify(h_i_plus_one)
     for point in quadrant_with_points:
@@ -111,14 +133,21 @@ def build_min_heap_for_quadrant_i(quadrant_with_points: list) -> list:
     return h_i_plus_one
 
 
-def get_extracted_elemenents_from_heaps(quadrants_with_points: list, heaps_for_quadrants: list) -> list:
+def get_extracted_elemenents_from_heaps(heaps_for_quadrants: list) -> list:
+    """
+    Returns the amount of extracted elements for each quadrants. The amount of extracted elements
+    is calculated with iterating over the two heaps until one of the two conditions is true which
+    terminates the iteration
+
+    Parameter heaps_for_quadrants: a list with the heaps for each quadrant 
+    """
     extracted_elements_counter, quadrants_with_terminated_extraction = ([] for i in range(2))
 
     while len(quadrants_with_terminated_extraction) != 4:
-        for index in range(len(quadrants_with_points)):
+        for index in range(4):
             try:
                 if (index not in quadrants_with_terminated_extraction):
-                    element_from_h_i_minus_one = heappop(heaps_for_quadrants[index][0]) # heaps_for_quadrants[index][0][0]
+                    element_from_h_i_minus_one = heappop(heaps_for_quadrants[index][0])
                     element_from_h_i_plus_one = heappop(heaps_for_quadrants[index][1])
                     extracted_elements_counter.append(index)
                     heaps_for_quadrants[index][0] = build_max_heap_for_quadrant_i(heaps_for_quadrants[index][0][1:])
@@ -131,6 +160,12 @@ def get_extracted_elemenents_from_heaps(quadrants_with_points: list, heaps_for_q
 
 
 def get_extracted_elements_count(extracted_elements_counter: list) -> list:
+    """
+    Returns the amount of extracted elements for each quadrant in a list
+
+    Parameter extracted_elements_counter: a list that contains information
+    about how many elements where extracted from the quadrants
+    """
     extracted_elements_for_quadrant_i = [0, 0, 0, 0]
     for index in range(4):
         extracted_elements_for_quadrant_i[index] = extracted_elements_for_quadrant_i[index] + extracted_elements_counter.count(index)
@@ -138,15 +173,31 @@ def get_extracted_elements_count(extracted_elements_counter: list) -> list:
 
 
 def calculate_depth_i(quadrants_with_points: list, heaps_for_quadrants: list, extracted_elements_for_quadrants: list) -> list:
+    """
+    Returns the Tukey depth that minimizes the four quadrants which is calculated in the function scan_elements
+
+    Parameter quadrants_with_points: the quadrants with the points
+
+    Parameter heaps_for_quadrants: the heaps for the quadrants
+
+    Parameter extracted_elements_for_quadrants: the amount of extracted elements for each quadrant
+    """
     elements_to_scan_for_each_quadrant = [[], [], [], []]
     for index in range(len(quadrants_with_points)):
-        # hier weiß ich noch nicht so richtig, ob das stimmt, da die modified heaps einfach immer genau wie die unmodified heaps sind. bruder egal
         elements_to_scan_for_each_quadrant[index] = heaps_for_quadrants[index][0][0:(2*extracted_elements_for_quadrants[index]-1)] + heaps_for_quadrants[index][1][0:(2*extracted_elements_for_quadrants[index]-1)]
         elements_to_scan_for_each_quadrant[index].sort(reverse=True)
     return scan_elements(quadrants_with_points, elements_to_scan_for_each_quadrant)
 
 
 def scan_elements(quadrants_with_points: list, elements_to_scan_for_each_quadrant: list) -> int:
+    """
+    Returns the Tukey depth
+
+    Parameter quadrants_with_points: the quadrants with the points
+
+    Parameter elements_to_scan_for_each_quadrant: the elements to scan for each quadrant which are 
+    already sorted depending on their polar angle, so that they can be scanned clockwise
+    """
     first_point_index = [0, 0, 0, 0]
     second_point_index = [0, 0, 0, 0]
     points_in_half_space_index = [0, 0, 0, 0]
@@ -183,6 +234,15 @@ def scan_elements(quadrants_with_points: list, elements_to_scan_for_each_quadran
 
 
 def check_if_obtuse_angle(index: int, polar_angle_from_h_i_minus_one: float, polar_angle_from_h_i_plus_one: float) -> bool:
+    """
+    Returns if the angle between two points i obtuse
+
+    Parameter index: information about the quadrant from which the polar angle will be looked at
+
+    Parameter polar_angle_from_h_i_minus_one: the polar angle of the point from heap H_i-1
+
+    Parameter polar_angle_from_h_i_plus_one: the polar angle of the point from heap H_i+1
+    """
     if index == 0 or index == 3:
         if (abs(polar_angle_from_h_i_minus_one - polar_angle_from_h_i_plus_one) < 180): 
             return True
@@ -193,6 +253,13 @@ def check_if_obtuse_angle(index: int, polar_angle_from_h_i_minus_one: float, pol
 
 
 def check_if_obtuse_angle_on_circle(polar_angle_from_first_pointer_point: float, polar_angle_from_second_pointer_point: float) -> bool:
+    """
+    Returns if the angle between to points is obtuse
+
+    Parameter polar_angle_from_first_pointer_point: the polar angle from the first point
+
+    Parameter polar_angle_from_second_pointer_point: the polar angle from the second point
+    """
     if (abs(polar_angle_from_first_pointer_point - polar_angle_from_second_pointer_point) > 180):
         return True
     return False
@@ -236,8 +303,7 @@ def run_algorithm_for_one_set_of_points(amount_of_points: int, coordinate_range:
     start_time = time.time()
     quadrants_with_points = divide_points_into_quadrants(sample_points)
     heaps_for_quadrants = build_heaps_for_quadrants(quadrants_with_points)
-    extracted_elements_for_quadrants = get_extracted_elemenents_from_heaps(quadrants_with_points, 
-    heaps_for_quadrants)
+    extracted_elements_for_quadrants = get_extracted_elemenents_from_heaps(heaps_for_quadrants)
     calculate_depth_i(quadrants_with_points, heaps_for_quadrants, extracted_elements_for_quadrants)
     return time.time() - start_time
 
