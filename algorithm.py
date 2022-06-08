@@ -268,14 +268,14 @@ def check_if_obtuse_angle_on_circle(polar_angle_from_first_pointer_point: float,
 def run_algorithm_for_n_points() -> list:
     """
         Returns a list that contains the values 1,...,n and the runtimes 
-        for the according calculations.
+        for the according calculations
 
         First, the user is asked to enter the amount of points, 
         that should be created and the interval in which the coordinates 
-        of the points are created.
+        of the points are created
 
         Then, it begins running the algorithm for a set 1 random point up 
-        to a set of n random points and stores the runtimes in the times list.
+        to a set of n random points and stores the runtimes in the times list
     """
     n_points = int(input("How many points do you want to create? "))
     domain = int(input("""What is the interval in which the sample points 
@@ -291,13 +291,13 @@ def run_algorithm_for_n_points() -> list:
 def run_algorithm_for_one_set_of_points(amount_of_points: int, coordinate_range: int) -> float:
     """
     Returns the runtime needed for the calculation of the 
-    tukey depth for n points.
+    tukey depth for n points
 
     Parameter amount_of_points: determines how many random 
     points will be generated
 
     Parameter coordinate_range: determines in which interval 
-    the random points will be generated.
+    the random points will be generated
     """
     sample_points = create_random_sample_points(amount_of_points, coordinate_range)
     start_time = time.time()
@@ -311,7 +311,7 @@ def run_algorithm_for_one_set_of_points(amount_of_points: int, coordinate_range:
 def plot_results(n: list, times: list) -> None:
     """
     Creates the plot with the input parameters and stores it
-    in an image in the plots/ subfolder.
+    in an image in the plots/ subfolder
 
     Parameter n: amount of points
 
