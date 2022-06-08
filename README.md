@@ -1,5 +1,7 @@
 # algorithm-2d-tukey-depth
-The algorithm calculates the Tukey depth of a point p with coordinates (0,0) in a set S. The size of the set S and the range in which the random points are generated can be changed easily. The run time according to the size of the input is then plotted in a .png image in the /plots subfolder. For example, the output image for an input size of 10000 elements could look like this:  
+The algorithm calculates the Tukey depth of a point p with coordinates (0,0) in a set S. The size of the set S and the range in which the random points are generated can be changed easily. The run time according to the size of the input is then plotted in a .png image in the /plots subfolder. 
+
+For example, the output image for an input size of 10000 elements could look like this:  
 
 ![image](https://user-images.githubusercontent.com/50794814/172380005-1691e1f7-fab7-42e8-8cf2-3c10eec20e6d.png)
 
@@ -42,6 +44,8 @@ The program then asks you to define the amount of points you want to create and 
 In the above image, we would plot the runtimes for a size n from 1 to 50 and the sample points would be generated in the interval [-50, 50].
 
 The images will be saved in the /plots subfolder, which is included in the project folder. 
+
+![image](https://user-images.githubusercontent.com/50794814/172401366-cd3997d4-5bec-458e-9f61-299bbec14019.png)
 
 
 
