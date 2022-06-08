@@ -227,12 +227,11 @@ def run_algorithm_for_one_set_of_points(amount_of_points: int, coordinate_range:
     x_range=coordinate_range, 
     y_range=coordinate_range)
     start_time = time.time()
-    for i in range(10):
-        quadrants_with_points = divide_points_into_quadrants(sample_points)
-        heaps_for_quadrants = build_heaps_for_quadrants(quadrants_with_points)
-        extracted_elements_for_quadrants = get_extracted_elemenents_from_heaps(quadrants_with_points, 
-        heaps_for_quadrants)
-        calculate_depth_i(quadrants_with_points, heaps_for_quadrants, extracted_elements_for_quadrants)
+    quadrants_with_points = divide_points_into_quadrants(sample_points)
+    heaps_for_quadrants = build_heaps_for_quadrants(quadrants_with_points)
+    extracted_elements_for_quadrants = get_extracted_elemenents_from_heaps(quadrants_with_points, 
+    heaps_for_quadrants)
+    calculate_depth_i(quadrants_with_points, heaps_for_quadrants, extracted_elements_for_quadrants)
     return time.time() - start_time
 
 
