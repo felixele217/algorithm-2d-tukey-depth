@@ -1,19 +1,28 @@
 """
-Module which contains the code that simulates and runs the algorithm
+Module which contains the code that calculates the depth and runs the algorithm
 
 Authors: Felix Droese (felixele217)
 Version: June 7th, 2022
 """
 
-
+# Importing the necessary functions and modules for the calculation
 from math import sqrt, atan, pi
 from random import randint
 from heapq import heappop, heappush, heapify
 from matplotlib import pyplot as plt
 import time
 
-# Erstellen von zufälligen Punkten, die für die Berechnung der Tukey depth dienen
 def create_random_sample_points(amount_of_points: int, x_range: int , y_range:int) -> list:
+    """
+    Returns a list than contains an amount sample points in the given ranges
+
+    Paramater amount_of_points: the amount of points which will be generated
+
+    Parameter x_range: defines the range of the x-coordinate of the point 
+    in the interval [-x_range, x_range]
+
+    Parameter y_range: analog to x_range
+    """
     sample_points = []
     for i in range(amount_of_points):
         sample_point = create_random_sample_point(x_range, y_range)
@@ -191,13 +200,14 @@ def run_algorithm_for_n_points() -> list:
     return [n, times]
 
 
-def run_algorithm_for_one_point(amount_of_points: int, range: int) -> float:
-    sample_points = create_random_sample_points(amount_of_points, x_range=range, y_range=range)
+def run_algorithm_for_one_point(amount_of_points: int, coordinate_range: int) -> float:
+    sample_points = create_random_sample_points(amount_of_points, x_range=coordinate_range, y_range=coordinate_range)
     start_time = time.time()
-    quadrants_with_points = divide_points_into_quadrants(sample_points)
-    heaps_for_quadrants = build_heaps_for_quadrants(quadrants_with_points)
-    extracted_elements_for_quadrants = get_extracted_elemenents_from_heaps(quadrants_with_points, heaps_for_quadrants)
-    calculate_depth_i(quadrants_with_points, heaps_for_quadrants, extracted_elements_for_quadrants)
+    for i in range(10):
+        quadrants_with_points = divide_points_into_quadrants(sample_points)
+        heaps_for_quadrants = build_heaps_for_quadrants(quadrants_with_points)
+        extracted_elements_for_quadrants = get_extracted_elemenents_from_heaps(quadrants_with_points, heaps_for_quadrants)
+        calculate_depth_i(quadrants_with_points, heaps_for_quadrants, extracted_elements_for_quadrants)
     return time.time() - start_time
 
 
