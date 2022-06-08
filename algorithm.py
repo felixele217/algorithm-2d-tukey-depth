@@ -290,14 +290,14 @@ def run_algorithm_for_n_points() -> list:
 
 def run_algorithm_for_one_set_of_points(amount_of_points: int, coordinate_range: int) -> float:
     """
-        Returns the runtime needed for the calculation of the 
-        tukey depth for n points.
+    Returns the runtime needed for the calculation of the 
+    tukey depth for n points.
 
-        Parameter amount_of_points: determines how many random 
-        points will be generated
+    Parameter amount_of_points: determines how many random 
+    points will be generated
 
-        Parameter coordinate_range: determines in which interval 
-        the random points will be generated.
+    Parameter coordinate_range: determines in which interval 
+    the random points will be generated.
     """
     sample_points = create_random_sample_points(amount_of_points, coordinate_range)
     start_time = time.time()
@@ -309,11 +309,17 @@ def run_algorithm_for_one_set_of_points(amount_of_points: int, coordinate_range:
 
 
 def plot_results(n: list, times: list) -> None:
-    # matplotlib.interactive(True)
+    """
+    Creates the plot with the input parameters and stores it
+    in an image in the plots/ subfolder.
+
+    Parameter n: amount of points
+
+    Parameter times: times needed for the calculation
+    """
     plt.xlabel("No. of elements")
     plt.ylabel("Time required")
     plt.plot(n,times)
-    # plt.show()
     plt.savefig("plots/" + str(len(times) + 1) + "-points.png")
         
 
