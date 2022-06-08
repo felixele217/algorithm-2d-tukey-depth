@@ -21,7 +21,7 @@ def create_random_sample_points(amount_of_points: int, coordinate_range: int) ->
     Parameter x_range: defines the range of the x-coordinate of the point 
     in the interval [-x_range, x_range]
 
-    Parameter y_range: analog to x_range
+    Parameter y_range: analogue to x_range
     """
     sample_points = []
     for i in range(amount_of_points):
