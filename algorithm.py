@@ -267,15 +267,15 @@ def check_if_obtuse_angle_on_circle(polar_angle_from_first_pointer_point: float,
 
 def run_algorithm_for_n_points() -> list:
     """
-        Returns a list that contains the values 1,...,n and the runtimes 
-        for the according calculations
+    Returns a list that contains the values 1,...,n and the runtimes 
+    for the according calculations
 
-        First, the user is asked to enter the amount of points, 
-        that should be created and the interval in which the coordinates 
-        of the points are created
+    First, the user is asked to enter the amount of points, 
+    that should be created and the interval in which the coordinates 
+    of the points are created
 
-        Then, it begins running the algorithm for a set 1 random point up 
-        to a set of n random points and stores the runtimes in the times list
+    Then, it begins running the algorithm for a set of 1 random point up 
+    to a set of n random points and stores the runtimes in the times list
     """
     n_points = int(input("How many points do you want to create? "))
     domain = int(input("""What is the interval in which the sample points 
