@@ -190,17 +190,34 @@ def check_if_obtuse_angle_on_circle(polar_angle_from_first_pointer_point: float,
 
 
 def run_algorithm_for_n_points() -> list:
+    """
+        Returns a list that contains the values 1,...,n and the runtimes for the according
+        calculations.
+
+        First, the user is asked to enter the amount of points, that should be created and the interval
+        in which the coordinates of the points are created.
+
+        Then, it begins running the algorithm for a set 1 random point up to a set of n random points and stores the 
+        runtimes in the times list.
+    """
     n_points = int(input("How many points do you want to create? "))
     domain = int(input("What is the interval in which the sample points should be created from [-input, input]? "))
     times = []
     for amount_of_points in range(1, n_points):
-        elapsed_time = run_algorithm_for_one_point(amount_of_points, domain)
+        elapsed_time = run_algorithm_for_one_set_of_points(amount_of_points, domain)
         times.append(elapsed_time)
     n=[i for i in range(1, n_points)]
     return [n, times]
 
 
-def run_algorithm_for_one_point(amount_of_points: int, coordinate_range: int) -> float:
+def run_algorithm_for_one_set_of_points(amount_of_points: int, coordinate_range: int) -> float:
+    """
+        Returns the runtime needed for the calculation of the tukey depth for n points.
+
+        Parameter amount_of_points: determines how many random points will be generated
+
+        Parameter coordinate_range: determines in which interval the random points will be generated.
+    """
     sample_points = create_random_sample_points(amount_of_points, x_range=coordinate_range, y_range=coordinate_range)
     start_time = time.time()
     for i in range(10):
