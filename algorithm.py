@@ -32,7 +32,9 @@ def create_random_sample_points(amount_of_points: int, coordinate_range: int) ->
 
 def create_random_sample_point(coordinate_range: int) -> list:
     """
-    Returns a randomly generated sample point which
+    Returns a randomly generated sample point which is
+    structured like the following:
+    [polar_angle, x_coordinate, y_coordinate]
     """
     x = randint(-coordinate_range, coordinate_range)
     y = randint(-coordinate_range, coordinate_range)
@@ -42,8 +44,13 @@ def create_random_sample_point(coordinate_range: int) -> list:
     return [polar_angle, x, y]
 
 
-# Berechnen des Polarwinkels für einen Punkt 
 def get_polar_angle(point: list) -> float:
+    """
+    Returns the polar angle of a given point.
+
+    Paramter point: the point that is used for 
+    calculating the polar angle.
+    """
     x = point[0]
     y = point[1]
     if x > 0 and y >= 0:
