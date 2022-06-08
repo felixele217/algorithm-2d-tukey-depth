@@ -12,7 +12,7 @@ from heapq import heappop, heappush, heapify
 from matplotlib import pyplot as plt
 import time
 
-def create_random_sample_points(amount_of_points: int, x_range: int , y_range:int) -> list:
+def create_random_sample_points(amount_of_points: int, coordinate_range: int) -> list:
     """
     Returns a list than contains an amount sample points in the given ranges
 
@@ -25,17 +25,19 @@ def create_random_sample_points(amount_of_points: int, x_range: int , y_range:in
     """
     sample_points = []
     for i in range(amount_of_points):
-        sample_point = create_random_sample_point(x_range, y_range)
+        sample_point = create_random_sample_point(coordinate_range)
         sample_points.append(sample_point)
     return sample_points
 
 
-# Funktion zum Erstellen von einem zufälligen Punkt
-def create_random_sample_point(x_range: int, y_range: int) -> list:
-    x = randint(-x_range, x_range)
-    y = randint(-y_range, y_range)
-    while x == 0: x = randint(-x_range, x_range)
-    while y == 0: y = randint(-y_range, y_range)
+def create_random_sample_point(coordinate_range: int) -> list:
+    """
+    Returns a randomly generated sample point which
+    """
+    x = randint(-coordinate_range, coordinate_range)
+    y = randint(-coordinate_range, coordinate_range)
+    while x == 0: x = randint(-coordinate_range, coordinate_range)
+    while y == 0: y = randint(-coordinate_range, coordinate_range)
     polar_angle = get_polar_angle([x, y])
     return [polar_angle, x, y]
 
@@ -223,9 +225,7 @@ def run_algorithm_for_one_set_of_points(amount_of_points: int, coordinate_range:
         Parameter coordinate_range: determines in which interval 
         the random points will be generated.
     """
-    sample_points = create_random_sample_points(amount_of_points, 
-    x_range=coordinate_range, 
-    y_range=coordinate_range)
+    sample_points = create_random_sample_points(amount_of_points, coordinate_range)
     start_time = time.time()
     quadrants_with_points = divide_points_into_quadrants(sample_points)
     heaps_for_quadrants = build_heaps_for_quadrants(quadrants_with_points)
