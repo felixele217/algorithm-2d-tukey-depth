@@ -14,7 +14,7 @@ import time
 
 def create_random_sample_points(amount_of_points: int, coordinate_range: int) -> list:
     """
-    Returns a list than contains an amount sample points in the given ranges
+    Returns a list than contains an amount of sample points in the given ranges
 
     Paramater amount_of_points: the amount of points which will be generated
 
