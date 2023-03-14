@@ -20,7 +20,6 @@ print_numbers([1, 2, 3])
 # 2
 # 3
 
-# Schreibe eine Funktion, die eine Liste von 3 Zahlen entgegennimmt und ausgibt, ob die Zahl größer als 10 ist
 
 def print_if_numbers_are_larger10(numbers: list):
     for number in numbers:
